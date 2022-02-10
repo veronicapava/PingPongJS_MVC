@@ -1,6 +1,5 @@
 //tablero 
 (function () {
-
     self.Board = function (width, height) {
         //tamaño
         this.height = height;
@@ -10,22 +9,19 @@
         this.game_over = false;
 
         //Barras
-        this.bars = []
+        this.bars = [];
         //Pelota
-        this.ball = null
+        this.ball = null;
     }
 
     self.Board.prototype = {
-
         //Se crean la sbarras y la pelota
         get elements() {
-            var elements = this.bars
-            elements.push(this.ball)
-            return elements
+            var elements = this.bars;
+            elements.push(this.ball);
+            return elements;
         }
     }
-
-
 })();
 
 //Pelota
@@ -39,42 +35,43 @@
 
         //Se entra al board, luego al bar y se le agrega nuevo elemento
         this.board.bars.push(this);
-
         //forma
         this.kind = "rectangle"
 
-        console.log("HOla")
+        //Velocidad
+        this.speed = 10;
     }
 
-    //Funcion para moverse, declaracion 
+    //Funcion para mover las barras
     self.Bar.prototype = {
         down: function () {
-
+            this.y += this.speed;
         },
         up: function () {
-
+            this.y -= this.speed;
+        },
+        toString: function () {
+            return "X: " + this.x + " Y: " + this.y
         }
     }
 })();
 
-
+// Esta funcion se encarga de dibujar el tablero
 (function () {
     self.BoardView = function (canvas, board) {
-        this.canvas = canvas
-        this.canvas.width = board.width
-        this.canvas.height = board.height
-        this.board = board;
-        this.ctx = canvas.getContext("2d")
-
+        this.canvas = canvas;
+        this.canvas.width = board.width;
+        this.canvas.height = board.height;
+        this.board = board; //se asgina el tablero
+        this.ctx = canvas.getContext("2d"); //obtiene el contexto del canvas
     }
 
-    self.Board.prototype = {
+    self.BoardView.prototype = {
 
         draw: function () {
-            for (var i = this.board.elements.length - 1; i >= 0; i--) {
+            for (var i = this.board.elements.length - 1; i >= 0; i--) { // Se corre el elemento para dibujarlo
                 var ele = this.board.elements[i]
                 draw(this.ctx, ele)
-                console.log("holiiiiiiiiii");
             }
         }
     }
@@ -93,17 +90,28 @@
 
     }
 })();
+var board = new Board(800, 400);
+var bar = new Bar(20, 100, 40, 100, board);
+var bar = new Bar(700, 100, 40, 100, board);
+var canvas = document.getElementById("canvas");
+var board_view = new BoardView(canvas, board);
+
+document.addEventListener("keydown", function (ev) {
+    console.log(ev.keyCode);
+    if (ev.keyCode == 38) {
+        bar.up();
+    } else if (ev.keyCode == 40) {
+        bar.down();
+    }
+    console.log("" + bar)
+
+})
 
 self.addEventListener("load", main)
 
 //Ejecutar todos los elementos 
 function main() {
-    var board = new Board(800, 400);
-    var bar = new Bar(20, 100, 40, 100, board);
-    var canvas = document.getElementById("canvas");
-    var board_view = new BoardView(canvas, board);
-    console.log("Por aqui voy")
+
     board_view.draw();
-    console.log("Aqui final")
 };
 
