@@ -1,0 +1,25 @@
+body {
+  background-image: url(https://cdn-icons.flaticon.com/png/512/2460/premium/2460174.png?token=exp=1644596397~hmac=2e9407ef58f7c86a50473c8fe0c664fe);
+  text-align: center;
+}
+
+#canvas {
+  background-color: white;
+}
+
+canvas {
+  border: solid;
+}
+
+h1 {
+  font-size: 50px;
+  font-weight: 900;
+}
+
+p {
+  font-size: 30px;
+}
+
+footer {
+  font-size: 30px;
+}
